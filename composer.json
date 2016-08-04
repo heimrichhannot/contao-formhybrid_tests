@@ -1,0 +1,33 @@
+{
+    "name": "heimrichhannot/contao-formhybrid_tests",
+    "description":"Formhybrid test configuration & unittests.",
+    "keywords":["contao", "form", "module", "developer", "unittests"],
+    "type": "contao-module",
+    "homepage":"https://github.com/heimrichhannot/contao-formhybrid_tests",
+    "license":"LGPL-3.0+",
+    "authors":[
+        {
+            "name":"Heimrich & Hannot",
+            "email":"digitales@heimrich-hannot.de",
+            "homepage":"http://www.heimrich-hannot.de",
+            "role":"Developer"
+        }
+    ],
+    "support":{
+        "issues":"https://github.com/heimrichhannot/contao-formhybrid_tests/issues"
+    },
+    "require": {
+        "contao/core": ">=3.2,<4-dev",
+        "heimrichhannot/contao-formhybrid": "~2.5"
+	},
+    "autoload": {
+        "classmap": [""]
+    },
+    "extra": {
+        "contao": {
+            "sources": {
+                "": "system/modules/contao-formhybrid_tests
+            }
+        }
+    }
+}
