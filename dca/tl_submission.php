@@ -17,7 +17,7 @@ $arrDca['palettes']['__selector__'][] = 'subpaletteSelector';
 
 $arrDca['subpalettes']['subpaletteSelector']      = 'subpaletteField1';
 $arrDca['subpalettes']['optionSelector_internal'] = 'internal_text';
-$arrDca['subpalettes']['optionSelector_external'] = 'external_text';
+$arrDca['subpalettes']['optionSelector_external'] = 'external_text,external_text2';
 
 $arrDca['subpalettes']['optionSelectorNoDefault_internal'] = 'internal_text';
 $arrDca['subpalettes']['optionSelectorNoDefault_external'] = 'external_text';
@@ -63,6 +63,12 @@ $arrFields = array
 	(
 		'inputType' => 'text',
 		'sql'       => "varchar(32) NOT NULL default ''",
+	),
+	'external_text2'      => array
+	(
+		'inputType' => 'text',
+		'sql'       => "varchar(32) NOT NULL default ''",
+		'eval'      => array('mandatory' => true),
 	),
 	'subpaletteSelector' => array
 	(
