@@ -10,7 +10,7 @@
          stopOnFailure="false"
          syntaxCheck="false"
          bootstrap="bootstrap.php"
-        >
+>
     <php>
         <ini name="display_errors" value="1"/>
         <!--<ini name="error_reporting" value="2147483647" />-->
