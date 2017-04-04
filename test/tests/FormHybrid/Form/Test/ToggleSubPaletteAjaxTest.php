@@ -10,7 +10,6 @@
 
 namespace HeimrichHannot\FormHybrid\Test\Form;
 
-
 use HeimrichHannot\Ajax\AjaxAction;
 use HeimrichHannot\Ajax\Exception\AjaxExitException;
 use HeimrichHannot\FormHybrid\Form;
@@ -249,5 +248,18 @@ class ToggleSubPaletteAjaxTest extends \PHPUnit_Framework_TestCase
     {
         // reset request parameter bag
         Request::set(new \Symfony\Component\HttpFoundation\Request());
+        \Input::resetCache(); // reset input cache
+    }
+
+    protected function tearDown()
+    {
+        \Database::getInstance()->execute('DELETE FROM tl_submission WHERE tstamp = 0');
+    }
+
+    protected function onNotSuccessfulTest(\Exception $e)
+    {
+        \Database::getInstance()->execute('DELETE FROM tl_submission WHERE tstamp = 0');
+
+        throw $e;
     }
 }

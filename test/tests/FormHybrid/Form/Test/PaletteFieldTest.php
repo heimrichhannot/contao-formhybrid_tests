@@ -19,6 +19,55 @@ use HeimrichHannot\Request\Request;
 class PaletteFieldTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * 'default' palette relation is active and field external_text is added to palette permanently
+     * @test
+     */
+    public function testPermanentFieldNotInDefaultPaletteAndDefaultPaletteIsActive()
+    {
+        $varConfig = [
+            'formHybridDataContainer'      => 'tl_submission',
+            'formHybridAddDefaultValues'   => true,
+            'formHybridDefaultValues'      => [
+                [
+                    'field' => 'typeSelector',
+                    'value' => 'default',
+                    'label' => '',
+                ],
+            ],
+            'formHybridEditable'           => [
+                'typeSelector',
+                'gender',
+                'firstname',
+                'lastname',
+                'internal_text',
+                'external_text'
+            ],
+        ];
+
+        $objModule     = new \ModuleModel();
+        $objModule->id = 999999999;
+
+        $objConfig = new FormConfiguration($varConfig);
+        $objConfig->setModule($objModule);
+
+        $objForm = new TestPostForm($objConfig);
+        \Controller::loadDataContainer('tl_submission');
+
+        // permanent fields must be part of formHybridEditable to determine order
+        $objForm->addEditableField('external_text', $GLOBALS['TL_DCA']['tl_submission']['fields']['external_text'], true);
+
+        $objForm->generate();
+
+        $arrCurrent     = array_keys($objForm->getActualFields());
+        $arrExpected    = ['typeSelector', 'gender', 'firstname', 'lastname', 'internal_text', 'external_text', 'submit'];
+
+        sort($arrCurrent);
+        sort($arrExpected);
+
+        $this->assertEquals($arrExpected, $arrCurrent);
+    }
+
+    /**
      * type selector field is editable and 'palette1' palette is set active from request and 'default' palette is set to active within formHybridDefault
      *
      * @test
@@ -500,5 +549,18 @@ class PaletteFieldTest extends \PHPUnit_Framework_TestCase
     {
         // reset request parameter bag
         Request::set(new \Symfony\Component\HttpFoundation\Request());
+        \Input::resetCache(); // reset input cache
+    }
+
+    protected function tearDown()
+    {
+        \Database::getInstance()->execute('DELETE FROM tl_submission WHERE tstamp = 0');
+    }
+
+    protected function onNotSuccessfulTest(\Exception $e)
+    {
+        \Database::getInstance()->execute('DELETE FROM tl_submission WHERE tstamp = 0');
+
+        throw $e;
     }
 }

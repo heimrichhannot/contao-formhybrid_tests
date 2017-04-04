@@ -23,4 +23,12 @@ class TestPostForm extends \HeimrichHannot\FormHybrid\Form
     {
         // TODO: Implement compile() method.
     }
+
+    /**
+     * @param bool $isSubmitted
+     */
+    public function setIsSubmitted($isSubmitted)
+    {
+        $this->isSubmitted = $isSubmitted;
+    }
 }
