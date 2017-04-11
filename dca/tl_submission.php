@@ -27,6 +27,7 @@ $arrDca['palettes']['default1'] = 'typeSelector';
 $arrDca['palettes']['palette1'] =
     'typeSelector,optionSelector,optionSelectorNoDefault,subpaletteSelector,updateFieldParent,updateFieldChild;{submission_legend},gender,academicTitle,firstname,lastname,attachments;';
 $arrDca['palettes']['palette2'] = 'typeSelector;{submission_legend},firstname,lastname,attachments,testText;';
+$arrDca['palettes']['palette3'] = '{submission_legend},firstname,lastname,attachments,testText,optionSelector;';
 
 /**
  * Fields

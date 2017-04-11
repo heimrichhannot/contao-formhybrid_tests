@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.8.6] - 2017-04-11
+
+### Added
+- `forcePaletteRelatation` tests added 
+
 ## [2.8.0] - 2017-03-29
 
 ### Added

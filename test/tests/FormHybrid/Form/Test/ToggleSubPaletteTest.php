@@ -43,7 +43,7 @@ class ToggleSubPaletteTest extends \PHPUnit_Framework_TestCase
                 'firstname', // must not be active, cause only subpalette is generated
                 'lastname', // must not be active, cause only subpalette is generated
                 'internal_text', // must not be in subplattes fields, as it is not active
-                'external_text'
+                'external_text',
             ],
         ];
 
@@ -194,6 +194,7 @@ class ToggleSubPaletteTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals($arrSubFieldsExpected, $arrSubFieldsCurrent);
         }
     }
+
 
     /**
      * toggle `subpaletteSelector` subpalette with palette `palette1` active

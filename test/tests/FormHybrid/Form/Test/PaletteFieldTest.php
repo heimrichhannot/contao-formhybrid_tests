@@ -19,6 +19,136 @@ use HeimrichHannot\Request\Request;
 class PaletteFieldTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * test force of palette relation
+     *
+     * @test
+     */
+    public function testForcePaletteRelationWithPalette3Selected()
+    {
+        $varConfig = [
+            'formHybridDataContainer'        => 'tl_submission',
+            'formHybridAddDefaultValues'     => true,
+            'formHybridForcePaletteRelation' => true,
+            'formHybridDefaultValues'      => [
+                [
+                    'field' => 'typeSelector',
+                    'value' => 'palette3',
+                    'label' => '',
+                ],
+            ],
+            'formHybridEditable'             => [
+                'optionSelector',
+                'firstname',
+                'lastname',
+                'internal_text',
+                'external_text', // must not be in subplattes fields, as it is not active
+            ],
+        ];
+
+        $objModule     = new \ModuleModel();
+        $objModule->id = 999999999;
+
+        $objRequest = \Symfony\Component\HttpFoundation\Request::create('http://localhost', 'post');
+        $objRequest->request->set('FORM_SUBMIT', FormHelper::getFormId('tl_submission', $objModule->id));
+
+        Request::set($objRequest);
+
+        $objConfig = new FormConfiguration($varConfig);
+        $objConfig->setModule($objModule);
+
+        $objForm = new TestPostForm($objConfig);
+        $objForm->generate();
+
+        $arrCurrent     = array_keys($objForm->getActualFields());
+        $arrExpected    = ['optionSelector', 'firstname', 'lastname', 'submit'];
+        $arrSubExpected = ['optionSelector' => ['internal_text']]; // optionSelectorNoDefault must be present as external_text is now added as permanent field
+
+        sort($arrCurrent);
+        sort($arrExpected);
+
+        $this->assertEquals($arrExpected, $arrCurrent);
+
+        $arrSubCurrent = $objForm->getActualSubFields();
+
+        $arrSubCurrentParent  = array_keys($arrSubCurrent);
+        $arrSubExpectedParent = array_keys($arrSubExpected);
+
+        $this->assertEquals($arrSubExpectedParent, $arrSubCurrentParent);
+
+        foreach ($arrSubCurrentParent as $strParent)
+        {
+            $arrSubFieldsCurrent  = array_keys($arrSubCurrent[$strParent]);
+            $arrSubFieldsExpected = $arrSubExpected[$strParent];
+
+            sort($arrSubFieldsCurrent);
+            sort($arrSubFieldsExpected);
+
+            $this->assertEquals($arrSubFieldsExpected, $arrSubFieldsCurrent);
+        }
+    }
+
+    /**
+     * test force of palette relation
+     *
+     * @test
+     */
+    public function testForcePaletteRelation()
+    {
+        $varConfig = [
+            'formHybridDataContainer'        => 'tl_submission',
+            'formHybridForcePaletteRelation' => true,
+            'formHybridEditable'             => [
+                'optionSelector', // must not be in palette fiels, as it is not part of default palette
+                'firstname',
+                'lastname',
+                'internal_text',
+                'external_text', // must not be in subplattes fields, as it is not active
+            ],
+        ];
+
+        $objModule     = new \ModuleModel();
+        $objModule->id = 999999999;
+
+        $objRequest = \Symfony\Component\HttpFoundation\Request::create('http://localhost', 'post');
+        $objRequest->request->set('FORM_SUBMIT', FormHelper::getFormId('tl_submission', $objModule->id));
+
+        Request::set($objRequest);
+
+        $objConfig = new FormConfiguration($varConfig);
+        $objConfig->setModule($objModule);
+
+        $objForm = new TestPostForm($objConfig);
+        $objForm->generate();
+
+        $arrCurrent     = array_keys($objForm->getActualFields());
+        $arrExpected    = ['firstname', 'lastname', 'internal_text', 'submit'];
+        $arrSubExpected = []; // optionSelectorNoDefault must be present as external_text is now added as permanent field
+
+        sort($arrCurrent);
+        sort($arrExpected);
+
+        $this->assertEquals($arrExpected, $arrCurrent);
+
+        $arrSubCurrent = $objForm->getActualSubFields();
+
+        $arrSubCurrentParent  = array_keys($arrSubCurrent);
+        $arrSubExpectedParent = array_keys($arrSubExpected);
+
+        $this->assertEquals($arrSubExpectedParent, $arrSubCurrentParent);
+
+        foreach ($arrSubCurrentParent as $strParent)
+        {
+            $arrSubFieldsCurrent  = array_keys($arrSubCurrent[$strParent]);
+            $arrSubFieldsExpected = $arrSubExpected[$strParent];
+
+            sort($arrSubFieldsCurrent);
+            sort($arrSubFieldsExpected);
+
+            $this->assertEquals($arrSubFieldsExpected, $arrSubFieldsCurrent);
+        }
+    }
+
+    /**
      * 'default' palette relation is active and field external_text is added to palette permanently
      * @test
      */

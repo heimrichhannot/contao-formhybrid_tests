@@ -11,7 +11,7 @@
 namespace HeimrichHannot\FormHybrid\Test\Form;
 
 use Contao\Model\Registry;
-use HeimrichHannot\EventRegistration\SubmissionModel;
+use HeimrichHannot\Submissions\SubmissionModel;
 use HeimrichHannot\FormHybrid\FormConfiguration;
 use HeimrichHannot\FormHybrid\FormHelper;
 use HeimrichHannot\FormHybrid\Test\TestPostForm;
